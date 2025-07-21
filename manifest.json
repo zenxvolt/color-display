@@ -2,7 +2,7 @@
     "name": "Full Screen Color Viewer",
     "short_name": "Color",
     "description": "Aplikasi PWA untuk menampilkan warna solid dalam mode layar penuh.",
-    "start_url": "/color-display/",
+    "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#2c3e50",
     "theme_color": "#34495e",
