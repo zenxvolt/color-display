@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,35 +16,35 @@
 <body>
 
     <div class="container" id="selectionContainer">
-        <h1>Pilih Warna</h1>
-        <p>Masukkan kode Hex atau pilih dari rekomendasi di bawah.</p>
+        <h1>Select a Color</h1>
+        <p>Enter a Hex code or select from the recommendations below.</p>
         
         <div class="input-group">
             <input type="text" id="hexInput" placeholder="#RRGGBB" value="#3498db">
-            <button id="showColorBtn">Tampilkan</button>
+            <button id="showColorBtn">Show</button>
         </div>
 
-        <h2>Rekomendasi Warna</h2>
+        <h2>Color Recommendations</h2>
         <div class="color-palette" id="colorPalette">
             </div>
     </div>
 
     <div id="colorDisplay">
-        <button id="exitBtn" title="Keluar dari Fullscreen">&times;</button>
+        <button id="exitBtn" title="Exit Fullscreen">&times;</button>
     </div>
 
     <script src="script.js"></script>
 
     <script>
-        // Registrasi Service Worker untuk PWA
+        // Register Service Worker for PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js')
                     .then(registration => {
-                        console.log('Service Worker berhasil didaftarkan:', registration);
+                        console.log('Service Worker successfully registered:', registration);
                     })
                     .catch(error => {
-                        console.log('Pendaftaran Service Worker gagal:', error);
+                        console.log('Service Worker registration failed:', error);
                     });
             });
         }
