@@ -5,7 +5,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const colorPalette = document.getElementById('colorPalette');
     const colorDisplay = document.getElementById('colorDisplay');
     const exitBtn = document.getElementById('exitBtn');
-    const selectionContainer = document.getElementById('selectionContainer');
+
+    // Variabel untuk timer
+    let hideButtonTimer;
 
     // Daftar warna rekomendasi
     const recommendedColors = [
@@ -19,7 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const swatch = document.createElement('div');
         swatch.classList.add('color-swatch');
         swatch.style.backgroundColor = color;
-        swatch.dataset.color = color; // Simpan kode hex di data-attribute
+        swatch.dataset.color = color;
         swatch.addEventListener('click', () => {
             hexInput.value = color;
             displayColor(color);
@@ -27,21 +29,29 @@ document.addEventListener('DOMContentLoaded', () => {
         colorPalette.appendChild(swatch);
     });
 
+    // Fungsi untuk menyembunyikan tombol X setelah jeda
+    const startHideTimer = () => {
+        clearTimeout(hideButtonTimer); // Hapus timer sebelumnya
+        hideButtonTimer = setTimeout(() => {
+            exitBtn.classList.add('hidden');
+        }, 3000); // Sembunyikan setelah 3 detik
+    };
+
     // Fungsi untuk menampilkan warna
     const displayColor = (color) => {
-        // Validasi format hex
         const hexRegex = /^#([0-9A-F]{3}){1,2}$/i;
         if (!hexRegex.test(color)) {
             alert('Format Hex Code tidak valid. Gunakan format #RRGGBB atau #RGB.');
             return;
         }
 
-        // Atur warna background dan tampilkan div
         colorDisplay.style.backgroundColor = color;
         colorDisplay.style.display = 'block';
 
-        // Minta untuk masuk ke mode fullscreen
-        // Gunakan document.documentElement untuk browser yang berbeda
+        // Tampilkan tombol X dan mulai timer untuk menyembunyikannya
+        exitBtn.classList.remove('hidden');
+        startHideTimer();
+
         const elem = document.documentElement;
         if (elem.requestFullscreen) {
             elem.requestFullscreen();
@@ -65,18 +75,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Event listener untuk tombol keluar
-    exitBtn.addEventListener('click', () => {
+    exitBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Mencegah event klik menyebar ke colorDisplay
         if (document.exitFullscreen) {
             document.exitFullscreen();
         }
     });
 
-    // Event listener untuk mendeteksi keluar dari fullscreen (misal: via tombol Esc)
+    // Event listener untuk mendeteksi keluar dari fullscreen
     document.addEventListener('fullscreenchange', () => {
-        // Jika tidak ada elemen yang fullscreen, sembunyikan tampilan warna
         if (!document.fullscreenElement) {
             colorDisplay.style.display = 'none';
+            clearTimeout(hideButtonTimer); // Matikan timer saat keluar
         }
-   
+    });
+
+    // Event listener pada area warna untuk menampilkan kembali tombol X
+    colorDisplay.addEventListener('click', () => {
+        // Jika tombol sedang tersembunyi, tampilkan kembali
+        if (exitBtn.classList.contains('hidden')) {
+            exitBtn.classList.remove('hidden');
+            startHideTimer(); // Mulai lagi timer untuk menyembunyikan
+        }
     });
 });
