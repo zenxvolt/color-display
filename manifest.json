@@ -1,5 +1,5 @@
 {
-    "name": "Full Screen Color Viewer",
+    "name": "Color Display",
     "short_name": "Color",
     "description": "Aplikasi PWA untuk menampilkan warna solid dalam mode layar penuh.",
     "start_url": "./index.html",
