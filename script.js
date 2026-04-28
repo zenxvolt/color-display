@@ -19,7 +19,6 @@ document.addEventListener('DOMContentLoaded', () => {
         swatch.style.backgroundColor = color;
         swatch.dataset.color = color;
         swatch.addEventListener('click', () => {
-            // Remove the # symbol when inserted into the input
             const pureHex = color.replace('#', '');
             hexInput.value = pureHex;
             displayColor(pureHex);
@@ -29,21 +28,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to display the color in fullscreen
     const displayColor = (colorHex) => {
-        // Remove # symbol if the user accidentally types it
         const cleanColor = colorHex.replace('#', '');
         
-        // Updated Regex: Validate 3 or 6 digits without #
         const hexRegex = /^([0-9A-F]{3}){1,2}$/i;
         if (!hexRegex.test(cleanColor)) {
             alert('Invalid Hex Code format. Please enter 3 or 6 characters (e.g., RRGGBB).');
             return;
         }
 
-        // Add the # back for the CSS background property
         colorDisplay.style.backgroundColor = '#' + cleanColor;
         colorDisplay.style.display = 'block';
 
-        const elem = document.documentElement;
+        // PERBAIKAN: Request fullscreen langsung pada elemen colorDisplay
+        const elem = colorDisplay; 
+        
         if (elem.requestFullscreen) {
             elem.requestFullscreen();
         } else if (elem.webkitRequestFullscreen) { /* Safari */
@@ -65,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // FIX: Tap the color screen to exit fullscreen
+    // Tap the color screen to exit fullscreen
     colorDisplay.addEventListener('click', () => {
         if (document.fullscreenElement || document.webkitFullscreenElement || document.msFullscreenElement) {
             if (document.exitFullscreen) {
@@ -76,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.msExitFullscreen();
             }
         } else {
-            // If for some reason it's not in fullscreen state, still hide the display
             colorDisplay.style.display = 'none';
         }
     });
@@ -84,6 +81,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Event listener to detect exiting fullscreen
     document.addEventListener('fullscreenchange', () => {
         if (!document.fullscreenElement) {
+            colorDisplay.style.display = 'none';
+        }
+    });
+    
+    // Fallback deteksi untuk Safari iOS
+    document.addEventListener('webkitfullscreenchange', () => {
+        if (!document.webkitFullscreenElement) {
             colorDisplay.style.display = 'none';
         }
     });
