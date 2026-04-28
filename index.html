@@ -6,11 +6,8 @@
     <title>Color Display</title>
     
     <link rel="manifest" href="manifest.json">
-    
     <meta name="theme-color" content="#2c3e50">
-    
     <link rel="stylesheet" href="style.css">
-    
     <link rel="apple-touch-icon" href="icons/icon-192x192.png">
 </head>
 <body>
@@ -20,18 +17,17 @@
         <p>Enter a Hex code or select from the recommendations below.</p>
         
         <div class="input-group">
-            <input type="text" id="hexInput" placeholder="#RRGGBB" value="#3498db">
+            <span class="hex-prefix" id="hexPrefix">#</span>
+            <input type="text" id="hexInput" placeholder="RRGGBB" value="3498db" maxlength="6">
             <button id="showColorBtn">Show</button>
         </div>
 
         <h2>Color Recommendations</h2>
         <div class="color-palette" id="colorPalette">
-            </div>
+        </div>
     </div>
 
-    <div id="colorDisplay">
-        <button id="exitBtn" title="Exit Fullscreen">&times;</button>
-    </div>
+    <div id="colorDisplay"></div>
 
     <script src="script.js"></script>
 
